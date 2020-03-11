@@ -15,7 +15,7 @@ const TodoTable = ({todos}) => (<div>
             <td>{todo.userId}</td>
             <td>{todo.id}</td>
             <td>{todo.title}</td>
-            <td>{todo.completed}</td>
+            <td>{todo.completed ? 'Yes' : 'No'}</td>
         </tr>
         )}
         </tbody>

@@ -1,42 +1,42 @@
 import * as React from 'react'
 import TodoTable from "./todoTable"
 import {Request} from "./../model/Request"
-import {searchTodos} from "../modules/todos";
+import {fetchTodos} from "../modules/todos";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
-export default class TodoComponent extends React.Component {
+class TodoComponent extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            request: Request.NONE,
-            todos: []
-        }
     }
 
     render() {
         return (<div>
-            <button onClick={() => this.search()}>
+            <button onClick={() => this.props.fetchTodos()}>
                 Search!
             </button>
             {
-                this.state.request !== Request.SUCCESS
+                this.props.request !== Request.SUCCESS
                     ? <div>
-                        {this.state && this.state.request === Request.ERROR
+                        {this.props.request === Request.ERROR
                             ? 'There was an error retrieving TODOs'
                             : (
-                                this.state.request === Request.PENDING
+                                this.props.request === Request.PENDING
                                     ? 'Loading...'
                                     : 'Please search some Todos :)'
                             )}
                     </div>
                     : <TodoTable
-                        todos={this.state.todos}
+                        todos={this.props.todos}
                     />
             }
                 </div>)
     }
-    search = () => {
+  /*  search = () => {
+
+        alert(this.props.todos.length)
+
         this.setState({request: Request.PENDING})
 
         searchTodos()
@@ -49,5 +49,22 @@ export default class TodoComponent extends React.Component {
                 this.setState({request: Request.ERROR})
                 console.log("An error has occurred: " + error)
         } );
-    }
+    }*/
 }
+
+const mapStateToProps = (state, ownProps) => ({
+    todos: state.todos || [],
+    request: state.request || Request.NONE
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    fetchTodos
+}, dispatch)
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TodoComponent)
+
+
+
