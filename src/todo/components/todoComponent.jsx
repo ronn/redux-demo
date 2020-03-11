@@ -1,7 +1,7 @@
 import * as React from 'react'
 import TodoTable from "./todoTable"
 import {Request} from "./../model/Request"
-import {searchTodos} from "../modules/todos";
+import {fetchTodos} from "../modules/todos";
 
 export default class TodoComponent extends React.Component {
 
@@ -39,7 +39,7 @@ export default class TodoComponent extends React.Component {
     search = () => {
         this.setState({request: Request.PENDING})
 
-        searchTodos()
+        fetchTodos()
             .then(todos => {
                 this.setState({
                     request: Request.SUCCESS,

@@ -1,6 +1,6 @@
 import {buildFrom} from "../model/Todo";
 
-export const searchTodos = () =>
+export const fetchTodos = () =>
     fetch('https://jsonplaceholder.typicode.com/todos')
         .then(handleErrors)
         .then(response => response.json())
